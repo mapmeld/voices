@@ -1,0 +1,66 @@
+body {
+  padding-bottom: 30px;
+}
+
+.col-md-6 {
+  text-align: center;
+}
+
+.canvas-container {
+  position: relative;
+}
+
+canvas {
+  cursor: pointer;
+  border: 2px solid #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#audios {
+  text-align: left;
+}
+
+#audios li {
+  list-style-type: none;
+  padding-bottom: 35px;
+}
+#audios span, #audios div, #audios audio {
+  vertical-align: middle;
+  display: inline;
+}
+
+.draw-tools {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.color {
+  font-size: 18pt;
+  padding: 0 10px;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+.color.black {
+  background: #000;
+  color: #000;
+}
+.color.red {
+  background: #c00;
+  color: #c00;
+}
+.color.blue {
+  background: #00c;
+  color: #00c;
+}
+.color.green {
+  background: #0c0;
+  color: #0c0;
+}
+.color.purple {
+  background: #c0c;
+  color: #c0c;
+}
+.draw-tools .color.highlight {
+  border: 3px solid pink;
+}
