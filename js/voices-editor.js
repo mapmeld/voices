@@ -1,4 +1,5 @@
-var canvas, ctx, editorState;
+var canvas, ctx, editorState, mainstream, recorder, browserAudioContext;
+var recording = false;
 
 function prepareDrawingCanvas() {
   canvas = $('canvas#photo')[0];
@@ -115,6 +116,33 @@ function allowDrawing() {
     $("canvas#drawn").on("mousemove", drawPixels);
     editorState = "color_an_area";
   });
+
+  $(".record").click(toggleRecording);
+}
+
+function toggleRecording(e) {
+  recording = !recording;
+  if(!recording){
+    recorder.stop();
+    mainstream.stop();
+    recorder.exportWAV(function(wavaudio) {
+      $(e.currentTarget).hide();
+      var audio = $(e.currentTarget).parent('li').find("audio")[0];
+      $(audio).show();
+      audio.src = window.URL.createObjectURL(wavaudio);
+    });
+  }
+  else {
+    navigator.getUserMedia({audio: true, video: false}, function(stream){
+      mainstream = stream;
+      var context = new browserAudioContext();
+      var mediaStreamSource = context.createMediaStreamSource(stream);
+      recorder = new Recorder(mediaStreamSource);
+      recorder.record();
+    }, function(err){
+      console.log(err);
+    });
+  }
 }
 
 function playAudioForColor(color) {
@@ -130,15 +158,32 @@ function playAudioForColor(color) {
   for (var c = 0; c < colors.length; c++) {
     var targetColor = colors[c];
     if (targetColor[0] === color[0] && targetColor[1] === color[1] && targetColor[2] === color[2]) {
-      $("audio")[c].play();
+      var matchingAudio = $($('#audios li')[c]).find('audio')[0];
+      if (matchingAudio) {
+        matchingAudio.play();
+      }
       break;
     }
+  }
+}
+
+function checkRecordability() {
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  if(typeof AudioContext === "undefined"){
+    browserAudioContext = webkitAudioContext;
+  }
+  else{
+    browserAudioContext = AudioContext;
+  }
+  if (typeof navigator.getUserMedia === 'undefined') {
+    $(".record").hide();
   }
 }
 
 // run JS when ready
 $(function() {
   prepareDrawingCanvas();
+  checkRecordability();
 
   if (window.location.href.indexOf("demo") > -1) {
     // special demo mode

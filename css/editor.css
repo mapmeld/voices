@@ -26,9 +26,15 @@ canvas {
   list-style-type: none;
   padding-bottom: 35px;
 }
-#audios span, #audios div, #audios audio {
+#audios span, #audios div, #audios audio, #audios button {
   vertical-align: middle;
   display: inline;
+}
+#audios audio {
+  display: none;
+}
+audio.show {
+  display: inline !important;
 }
 
 .draw-tools {

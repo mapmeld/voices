@@ -36,6 +36,14 @@ Clicking on the umbrella makes the audio start playing.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/4.png" width="400"/>
 
+## Libraries
+
+Built entirely on open source libraries:
+
+* Bootstrap / Bootstrap-Noto CSS
+* jQuery
+* <a href="https://github.com/mattdiamond/Recorderjs">Recorder.js</a> by Matt Diamond
+
 ## License
 
-Currently using the MIT license
+This project has an MIT license
