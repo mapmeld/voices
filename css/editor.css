@@ -30,7 +30,7 @@ canvas {
   vertical-align: middle;
   display: inline;
 }
-#audios audio {
+#audios audio, #audios .record {
   display: none;
 }
 audio.show {

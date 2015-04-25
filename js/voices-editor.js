@@ -117,22 +117,23 @@ function allowDrawing() {
     editorState = "color_an_area";
   });
 
-  $(".record").click(toggleRecording);
+  $(".record").show().click(toggleRecording);
 }
 
 function toggleRecording(e) {
   recording = !recording;
   if(!recording){
+    $(e.currentTarget).hide();
     recorder.stop();
     mainstream.stop();
     recorder.exportWAV(function(wavaudio) {
-      $(e.currentTarget).hide();
       var audio = $(e.currentTarget).parent('li').find("audio")[0];
       $(audio).show();
       audio.src = window.URL.createObjectURL(wavaudio);
     });
   }
   else {
+    $(e.currentTarget).text('Stop');
     navigator.getUserMedia({audio: true, video: false}, function(stream){
       mainstream = stream;
       var context = new browserAudioContext();
