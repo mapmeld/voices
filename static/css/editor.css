@@ -19,12 +19,15 @@ canvas {
 }
 
 #audios {
+  margin: 20px 0;
   text-align: left;
 }
 
 #audios li {
   list-style-type: none;
-  padding-bottom: 35px;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #000;
 }
 #audios span, #audios div, #audios audio, #audios button {
   vertical-align: middle;
@@ -34,7 +37,11 @@ canvas {
   display: none;
 }
 audio.show {
+  margin-left: 15px;
   display: inline !important;
+}
+.record {
+  margin-left: 15px;
 }
 
 .draw-tools {

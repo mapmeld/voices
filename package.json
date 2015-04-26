@@ -1,0 +1,13 @@
+{
+  "name": "slang-voices",
+  "version": "0.1.1",
+  "author": "Nick Doiron <ndoiron@mapmeld.com>",
+  "dependencies": {
+    "aws-sdk": "^2.1.25",
+    "express": "^4.12.3",
+    "jade": "^1.9.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

@@ -127,9 +127,8 @@ function toggleRecording(e) {
     recorder.stop();
     mainstream.stop();
     recorder.exportWAV(function(wavaudio) {
-      var audio = $(e.currentTarget).parent('li').find("audio")[0];
-      $(audio).show();
-      audio.src = window.URL.createObjectURL(wavaudio);
+      var audioBox = $(e.currentTarget).parent('li');
+      audioBox.find('audio').show()[0].src = window.URL.createObjectURL(wavaudio);
     });
   }
   else {
