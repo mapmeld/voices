@@ -4,8 +4,10 @@
   "author": "Nick Doiron <ndoiron@mapmeld.com>",
   "dependencies": {
     "aws-sdk": "^2.1.25",
+    "body-parser": "^1.12.3",
     "express": "^4.12.3",
-    "jade": "^1.9.2"
+    "jade": "^1.9.2",
+    "multer": "^0.1.8"
   },
   "scripts": {
     "start": "node app.js"

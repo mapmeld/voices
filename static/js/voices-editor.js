@@ -129,6 +129,7 @@ function toggleRecording(e) {
     recorder.exportWAV(function(wavaudio) {
       var audioBox = $(e.currentTarget).parent('li');
       audioBox.find('audio').show()[0].src = window.URL.createObjectURL(wavaudio);
+      putUploadURL(wavaudio, audioBox.find('input'));
     });
   }
   else {
@@ -145,7 +146,11 @@ function toggleRecording(e) {
   }
 }
 
-function playAudioForColor(color) {
+function colorMatch(color1, color2) {
+  return (Math.abs(color1[0] - color2[0]) < 20) && (Math.abs(color1[1] - color2[1]) < 20) && (Math.abs(color1[2] - color2[2]) < 20);
+}
+
+function playAudioForColor(pixelColor) {
   // should be same order as color palette in audio list
   var colors = [
     [0, 0, 0],
@@ -157,7 +162,7 @@ function playAudioForColor(color) {
 
   for (var c = 0; c < colors.length; c++) {
     var targetColor = colors[c];
-    if (targetColor[0] === color[0] && targetColor[1] === color[1] && targetColor[2] === color[2]) {
+    if (colorMatch(targetColor, pixelColor)) {
       var matchingAudio = $($('#audios li')[c]).find('audio')[0];
       if (matchingAudio) {
         matchingAudio.play();
@@ -165,6 +170,25 @@ function playAudioForColor(color) {
       break;
     }
   }
+}
+
+function putUploadURL(blobData, input) {
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var fd = new FormData();
+    fd.append('fname', 'recording.wav');
+    fd.append('data', e.target.result);
+    $.ajax({
+      type: 'POST',
+      url: '/create',
+      data: fd,
+      processData: false,
+      contentType: false
+    }).done(function (data) {
+      input.val(data.url);
+    });
+  };
+  reader.readAsDataURL(blobData);
 }
 
 function checkRecordability() {

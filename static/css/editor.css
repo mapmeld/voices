@@ -8,6 +8,7 @@ body {
 
 .canvas-container {
   position: relative;
+  height: 550px;
 }
 
 canvas {
