@@ -29,7 +29,6 @@ html
           .canvas-tools.hide
             button#tryCanvas.btn.btn-success Try It!
             button#restoreCanvas.btn.btn-info.hide Keep Editing
-          form(action="/save", method="POST")
             ul#audios
               li
                 span.color.black.highlight _
@@ -46,7 +45,9 @@ html
               li
                 span.color.purple _
                 include partials/audioRecorder
-            input#save.btn.btn-success(type="submit", value="Upload Audio")
+            button#save.btn.btn-success(type="submit", value="Upload Audio")
+            form(action="/save", method="POST")
+              input(type="hidden", value="savestuff")
 
     script(type="text/javascript", src="js/lib/jquery-1.11.2.min.js")
     script(type="text/javascript", src="js/lib/recorder.js")

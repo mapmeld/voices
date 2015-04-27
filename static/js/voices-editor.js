@@ -16,7 +16,7 @@ function processDroppedImage (e) {
 
   var i = new Image();
   i.onload = function () {
-    if (i.width / i.height > iw / ih) {
+    if (i.width / i.height < iw / ih) {
       iw = i.width * ih / i.height;
     } else {
       ih = i.height * iw / i.width;
@@ -87,13 +87,22 @@ function allowDrawing() {
     }
   };
 
-  $("canvas#drawn").on("mousedown", function() {
+  $("canvas#drawn")
+  .on("mouseover", function() {
+    $("canvas#drawn").addClass('active');
+  })
+  .on("mouseout", function() {
+    $("canvas#drawn").removeClass('active');
+  })
+  .on("mousedown", function() {
     writing = true;
     lastPt = null;
     ctx.beginPath();
-  }).on("mouseup mouseout", function() {
+  })
+  .on("mouseup mouseout", function() {
     writing = false;
-  }).on("mousemove", drawPixels);
+  })
+  .on("mousemove", drawPixels);
 
   $("canvas#photo").click(function(e) {
     if (editorState == "test_audio") {

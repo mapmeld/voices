@@ -18,6 +18,12 @@ canvas {
   top: 0;
   left: 0;
 }
+canvas#drawn {
+  opacity: 0.5;
+}
+canvas#drawn.active {
+  opacity: 1;
+}
 
 #audios {
   margin: 20px 0;
