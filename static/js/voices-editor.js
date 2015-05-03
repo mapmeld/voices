@@ -65,6 +65,9 @@ function allowDrawing() {
   ctx.fill = "#fff";
   ctx.stokeStyle = "#000";
   ctx.lineWidth = 8;
+  if (window.devicePixelRatio && window.devicePixelRatio > 1) {
+    ctx.lineWidth = 12;
+  }
 
   $(".draw-tools, .canvas-tools").removeClass('hide');
   $(".draw-tools .color").click(function(e) {

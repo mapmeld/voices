@@ -45,7 +45,7 @@ html
               li
                 span.color.purple _
                 include partials/audioRecorder
-            button#save.btn.btn-success(type="submit", value="Upload Audio")
+            button#save.btn.btn-success(type="submit") Save
             form(action="/save", method="POST")
               input(type="hidden", value="savestuff")
 
