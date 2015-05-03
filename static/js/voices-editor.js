@@ -3,7 +3,7 @@ var recording = false;
 
 function prepareDrawingCanvas() {
   ctx.strokeStyle = "#000";
-  ctx.fill = "#fff";
+  ctx.fillStyle = "#000";
   ctx.fillText("Drop an image on the page!", 0, 30)
 }
 
@@ -57,7 +57,7 @@ function watchForDroppedImage() {
 function allowDrawing() {
   editorState = "color_an_area";
 
-  colorctx.fill = "#fff";
+  colorctx.fillStyle = "#000";
   colorctx.stokeStyle = "#000";
   colorctx.lineWidth = 8;
   if (window.devicePixelRatio && window.devicePixelRatio > 1) {
@@ -69,13 +69,15 @@ function allowDrawing() {
     $(".color").removeClass("highlight");
     $(e.currentTarget).addClass("highlight");
     colorctx.strokeStyle = $(e.currentTarget).css('color');
+    colorctx.fillStyle = $(e.currentTarget).css('color');
   });
 
   var writing = false;
+  var areas = false;
   var lastPt = null;
 
   var drawPixels = function(e) {
-    if (writing) {
+    if (writing && !areas) {
       if (lastPt) {
         colorctx.lineTo(e.offsetX, e.offsetY);
         colorctx.stroke();
@@ -92,13 +94,32 @@ function allowDrawing() {
   .on("mouseout", function() {
     $("canvas#drawn").removeClass('active');
   })
-  .on("mousedown", function() {
+  .on("mousedown", function(e) {
     writing = true;
     lastPt = null;
-    colorctx.beginPath();
+    if (!areas) {
+      colorctx.beginPath();
+    }
   })
   .on("mouseup mouseout", function() {
     writing = false;
+  })
+  .on("click", function(e) {
+    if (areas) {
+      colorctx.lineTo(e.offsetX, e.offsetY);
+      colorctx.stroke();
+    }
+  })
+  .on("dblclick", function(e) {
+    if (areas) {
+      colorctx.lineTo(e.offsetX, e.offsetY);
+      colorctx.closePath();
+      colorctx.fill();
+    } else {
+      colorctx.beginPath();
+      colorctx.moveTo(e.offsetX, e.offsetY);
+    }
+    areas = !areas;
   })
   .on("mousemove", drawPixels);
 
@@ -142,7 +163,7 @@ function allowDrawing() {
 function toggleRecording(e) {
   recording = !recording;
   if(!recording){
-    $(e.currentTarget).hide();
+    $(e.currentTarget).text('Re-record');
     recorder.stop();
     mainstream.stop();
     recorder.exportWAV(function(wavaudio) {
@@ -152,8 +173,9 @@ function toggleRecording(e) {
     });
   }
   else {
-    $(e.currentTarget).text('Stop');
+    $(e.currentTarget).text('Approve');
     navigator.getUserMedia({audio: true, video: false}, function(stream){
+      $(e.currentTarget).text('Stop');
       mainstream = stream;
       var context = new browserAudioContext();
       var mediaStreamSource = context.createMediaStreamSource(stream);
