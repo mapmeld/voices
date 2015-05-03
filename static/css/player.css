@@ -14,9 +14,11 @@ canvas {
   top: 0;
   left: 0;
 }
-canvas#drawn {
-  opacity: 0.5;
+
+.public #audios {
+  visibility: hidden;
 }
-canvas#drawn.active {
-  opacity: 1;
+
+.public canvas#drawn {
+  opacity: 0;
 }

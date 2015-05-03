@@ -1,37 +1,14 @@
-var canvas, ctx, editorState, mainstream, recorder, browserAudioContext;
+var mainstream, recorder, browserAudioContext;
 var recording = false;
 
-if (typeof console == 'undefined') {
-  console = {
-    log: function() { }
-  };
-}
-
 function prepareDrawingCanvas() {
-  canvas = $('canvas#photo')[0];
-  ctx = canvas.getContext('2d');
   ctx.strokeStyle = "#000";
   ctx.fill = "#fff";
   ctx.fillText("Drop an image on the page!", 0, 30)
 }
 
 function processDroppedImage (e) {
-  var iw = 500;
-  var ih = 500;
-  ctx.fillRect(0, 0, iw, ih);
-
-  var i = new Image();
-  i.onload = function () {
-    if (i.width / i.height < iw / ih) {
-      iw = i.width * ih / i.height;
-    } else {
-      ih = i.height * iw / i.width;
-    }
-    ctx.drawImage(i, 0, 0, iw, ih);
-
-    allowDrawing();
-  };
-  i.src = e.target.result;
+  loadURLOnCanvas(e.target.result);
 
   // upload that image to S3
   var fd = new FormData();
@@ -80,21 +57,18 @@ function watchForDroppedImage() {
 function allowDrawing() {
   editorState = "color_an_area";
 
-  canvas = $('canvas#drawn')[0];
-  ctx = canvas.getContext('2d');
-
-  ctx.fill = "#fff";
-  ctx.stokeStyle = "#000";
-  ctx.lineWidth = 8;
+  colorctx.fill = "#fff";
+  colorctx.stokeStyle = "#000";
+  colorctx.lineWidth = 8;
   if (window.devicePixelRatio && window.devicePixelRatio > 1) {
-    ctx.lineWidth = 12;
+    colorctx.lineWidth = 12;
   }
 
   $(".draw-tools, .canvas-tools").removeClass('hide');
   $(".draw-tools .color").click(function(e) {
     $(".color").removeClass("highlight");
     $(e.currentTarget).addClass("highlight");
-    ctx.strokeStyle = $(e.currentTarget).css('color');
+    colorctx.strokeStyle = $(e.currentTarget).css('color');
   });
 
   var writing = false;
@@ -103,10 +77,10 @@ function allowDrawing() {
   var drawPixels = function(e) {
     if (writing) {
       if (lastPt) {
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
+        colorctx.lineTo(e.offsetX, e.offsetY);
+        colorctx.stroke();
       }
-      ctx.moveTo(e.offsetX, e.offsetY);
+      colorctx.moveTo(e.offsetX, e.offsetY);
       lastPt = [e.offsetX, e.offsetY];
     }
   };
@@ -121,21 +95,12 @@ function allowDrawing() {
   .on("mousedown", function() {
     writing = true;
     lastPt = null;
-    ctx.beginPath();
+    colorctx.beginPath();
   })
   .on("mouseup mouseout", function() {
     writing = false;
   })
   .on("mousemove", drawPixels);
-
-  $("canvas#photo").click(function(e) {
-    if (editorState == "test_audio") {
-      var pixelColor = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
-      if (pixelColor[3] > 0) {
-        playAudioForColor(pixelColor);
-      }
-    }
-  });
 
   $("#tryCanvas").click(function() {
     $(".draw-tools, #tryCanvas, canvas#drawn").addClass("hide");
@@ -159,6 +124,7 @@ function allowDrawing() {
     }
     var fd = new FormData();
     fd.append('img', $('#imgurl').val());
+    fd.append('colorkey', $("canvas#drawn")[0].toDataURL());
     fd.append('audios', mergeUrl.join('|'));
     fd.append('_csrf', $('#csrf').val());
     $.ajax({
@@ -196,32 +162,6 @@ function toggleRecording(e) {
     }, function(err){
       console.log(err);
     });
-  }
-}
-
-function colorMatch(color1, color2) {
-  return (Math.abs(color1[0] - color2[0]) < 20) && (Math.abs(color1[1] - color2[1]) < 20) && (Math.abs(color1[2] - color2[2]) < 20);
-}
-
-function playAudioForColor(pixelColor) {
-  // should be same order as color palette in audio list
-  var colors = [
-    [0, 0, 0],
-    [192, 0, 0],
-    [0, 0, 192],
-    [0, 192, 0],
-    [192, 0, 192]
-  ];
-
-  for (var c = 0; c < colors.length; c++) {
-    var targetColor = colors[c];
-    if (colorMatch(targetColor, pixelColor)) {
-      var matchingAudio = $($('#audios li')[c]).find('audio')[0];
-      if (matchingAudio) {
-        matchingAudio.play();
-      }
-      break;
-    }
   }
 }
 

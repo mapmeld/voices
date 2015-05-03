@@ -44,7 +44,20 @@ app.get('/demo', csrfProtection, function (req, res) {
 app.get('/view/:id', csrfProtection, function (req, res) {
   Interactive.findById(req.params.id, function (err, int) {
     request(int.imgurl, function(err, resp, dataURI) {
-      res.render('view', { interactive: int, imgurl: dataURI });
+      var loadAudioURL = function(i) {
+        if (i > int.audioUrls.length) {
+          return res.render('view', { interactive: int, imgurl: dataURI });
+        }
+        if (int.audioUrls[i]) {
+          request(int.audioUrls[i], function(err, resp, dt) {
+            int.audioUrls[i] = dt;
+            loadAudioURL(i + 1);
+          });
+        } else {
+          loadAudioURL(i + 1);
+        }
+      };
+      loadAudioURL(0);
     });
   });
 });
@@ -82,6 +95,7 @@ app.post('/save', parseForm, csrfProtection, function (req, res) {
   var int = new Interactive();
   int.imgurl = req.body.img;
   int.audioUrls = req.body.audios.split('|');
+  int.colorkey = req.body.colorkey;
   int.save(function(err) {
     res.json({ redirect: '/view/' + int._id });
   });
