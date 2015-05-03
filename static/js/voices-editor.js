@@ -1,6 +1,12 @@
 var canvas, ctx, editorState, mainstream, recorder, browserAudioContext;
 var recording = false;
 
+if (typeof console == 'undefined') {
+  console = {
+    log: function() { }
+  };
+}
+
 function prepareDrawingCanvas() {
   canvas = $('canvas#photo')[0];
   ctx = canvas.getContext('2d');
@@ -26,6 +32,21 @@ function processDroppedImage (e) {
     allowDrawing();
   };
   i.src = e.target.result;
+
+  // upload that image to S3
+  var fd = new FormData();
+  fd.append('fname', 'image.png');
+  fd.append('data', e.target.result);
+  fd.append('_csrf', $('#csrf').val());
+  $.ajax({
+    type: 'POST',
+    url: '/imgurl',
+    data: fd,
+    processData: false,
+    contentType: false
+  }).done(function (data) {
+    $('#imgurl').val(data.url);
+  });
 }
 
 function watchForDroppedImage() {
@@ -190,6 +211,7 @@ function putUploadURL(blobData, input) {
     var fd = new FormData();
     fd.append('fname', 'recording.wav');
     fd.append('data', e.target.result);
+    fd.append('_csrf', $('#csrf').val());
     $.ajax({
       type: 'POST',
       url: '/create',

@@ -47,6 +47,8 @@ html
                 include partials/audioRecorder
             button#save.btn.btn-success(type="submit") Save
             form(action="/save", method="POST")
+              input#imgurl(type="hidden", value="")
+              input#csrf(type="hidden", name="_csrf", value="#{csrfToken}")
               input(type="hidden", value="savestuff")
 
     script(type="text/javascript", src="js/lib/jquery-1.11.2.min.js")
