@@ -4,6 +4,7 @@ html
     meta(charset="utf-8")
     title SLANG - Voices
     link(rel="stylesheet", type="text/css", href="css/bootstrap-noto.min.css")
+    link(rel="stylesheet", type="text/css", href="css/player.css")
     link(rel="stylesheet", type="text/css", href="css/editor.css")
   body
     .container
@@ -45,11 +46,9 @@ html
               li
                 span.color.purple _
                 include partials/audioRecorder
-            button#save.btn.btn-success(type="submit") Save
-            form(action="/save", method="POST")
-              input#imgurl(type="hidden", value="")
-              input#csrf(type="hidden", name="_csrf", value="#{csrfToken}")
-              input(type="hidden", value="savestuff")
+            button#save.btn.btn-success Save
+            input#imgurl(type="hidden", value="")
+            input#csrf(type="hidden", name="_csrf", value="#{csrfToken}")
 
     script(type="text/javascript", src="js/lib/jquery-1.11.2.min.js")
     script(type="text/javascript", src="js/lib/recorder.js")

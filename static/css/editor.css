@@ -1,28 +1,5 @@
-body {
-  padding-bottom: 30px;
-}
-
 .col-md-6 {
   text-align: center;
-}
-
-.canvas-container {
-  position: relative;
-  height: 550px;
-}
-
-canvas {
-  cursor: pointer;
-  border: 2px solid #000;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-canvas#drawn {
-  opacity: 0.5;
-}
-canvas#drawn.active {
-  opacity: 1;
 }
 
 #audios {

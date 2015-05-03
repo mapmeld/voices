@@ -8,6 +8,8 @@ var multer = require('multer');
 var compression = require('compression');
 var csrf = require('csurf');
 var AWS = require('aws-sdk');
+var mongoose = require('mongoose');
+var request = require('request');
 
 AWS.config.accessKeyId = process.env.AWS_ACCESS_KEY;
 AWS.config.secretAccessKey = process.env.AWS_SECRET_KEY;
@@ -17,6 +19,9 @@ var s3 = new AWS.S3();
 
 var csrfProtection = csrf({ cookie: true });
 var parseForm = bodyParser.urlencoded({ extended: false })
+
+var Interactive = require('./models/interactive');
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -34,6 +39,14 @@ app.get('/', csrfProtection, function (req, res) {
 
 app.get('/demo', csrfProtection, function (req, res) {
   res.render('demo');
+});
+
+app.get('/view/:id', csrfProtection, function (req, res) {
+  Interactive.findById(req.params.id, function (err, int) {
+    request(int.imgurl, function(err, resp, dataURI) {
+      res.render('view', { interactive: int, imgurl: dataURI });
+    });
+  });
 });
 
 app.get('/create', csrfProtection, function (req, res) {
@@ -61,6 +74,16 @@ app.post('/imgurl', parseForm, csrfProtection, function (req, res) {
     } else {
       res.json({ url: 'http://endangered-language-voices.s3-website-us-east-1.amazonaws.com/' + tstamp });
     }
+  });
+});
+
+app.post('/save', parseForm, csrfProtection, function (req, res) {
+  //console.log(req.body);
+  var int = new Interactive();
+  int.imgurl = req.body.img;
+  int.audioUrls = req.body.audios.split('|');
+  int.save(function(err) {
+    res.json({ redirect: '/view/' + int._id });
   });
 });
 

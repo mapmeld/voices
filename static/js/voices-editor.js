@@ -151,6 +151,26 @@ function allowDrawing() {
   });
 
   $(".record").show().click(toggleRecording);
+
+  $("#save").click(function() {
+    var mergeUrl = [];
+    for (var c = 0; c < $('#audios li').length; c++) {
+      mergeUrl.push($($('#audios li')[c]).find('input').val());
+    }
+    var fd = new FormData();
+    fd.append('img', $('#imgurl').val());
+    fd.append('audios', mergeUrl.join('|'));
+    fd.append('_csrf', $('#csrf').val());
+    $.ajax({
+      type: 'POST',
+      url: '/save',
+      data: fd,
+      processData: false,
+      contentType: false
+    }).done(function (data) {
+      window.location = data.redirect;
+    });
+  });
 }
 
 function toggleRecording(e) {

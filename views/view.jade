@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title SLANG - Voices
+    link(rel="stylesheet", type="text/css", href="/css/bootstrap-noto.min.css")
+    link(rel="stylesheet", type="text/css", href="/css/player.css")
+  body
+    .container
+      .hero-unit.well
+        h4 Voices
+
+      .row
+        .col-md-6
+          h3 Image
+          .draw-tools.hide
+            span.color.black.highlight _
+            span.color.red _
+            span.color.blue _
+            span.color.green _
+            span.color.purple _
+          .canvas-container
+            canvas#photo(width="500", height="500") Your web browser does not support Canvas! Sorry =(
+            canvas#drawn(width="500", height="500")
+          noscript Your web browser does not support JavaScript! Sorry =(
+
+        .col-md-6
+          p About to play
+          #audios
+
+    script(type="text/javascript", src="/js/lib/jquery-1.11.2.min.js")
+    script(type="text/javascript") var imgurl = "#{imgurl}";
+    script(type="text/javascript") var player = !{JSON.stringify(interactive)};
+    script(type="text/javascript", src="/js/voices-app.js")

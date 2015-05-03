@@ -36,6 +36,10 @@ Clicking on the umbrella makes the audio start playing.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/4.png" width="400"/>
 
+When you're done, click "Save" at the bottom right.
+
+You'll be redirected to a new ready-to-use URL.
+
 ## Libraries
 
 Built entirely on open source libraries:
@@ -43,6 +47,8 @@ Built entirely on open source libraries:
 * Bootstrap / Bootstrap-Noto CSS
 * jQuery
 * <a href="https://github.com/mattdiamond/Recorderjs">Recorder.js</a> by Matt Diamond
+
+The server uses MongoDB, Amazon S3, and Express
 
 ## License
 
