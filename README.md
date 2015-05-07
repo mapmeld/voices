@@ -32,7 +32,7 @@ You can change colors by clicking a colorful square above the photo.
 
 Now record or upload your audio files for each color, on a sidebar.
 
-<img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/5.png" width="400"/>
+<img src="https://raw.githubusercontent.com/slang-group/voices/master/static/demo/screenshots/5.png" width="400"/>
 
 Now click 'Try It!'. The colors are hidden, but your computer remembers where the click areas are.
 
