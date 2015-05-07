@@ -76,6 +76,19 @@ function watchForUploadedImage() {
   });
 }
 
+function watchForAudioUpload() {
+  $("#audios input[type=file]").change(function(e) {
+    var audio = this.files[0];
+    if (audio) {
+      var audioBox = $(e.currentTarget).parent('li');
+      var audioFileURL = URL.createObjectURL(audio);
+      $(audioBox).find('audio').show()[0].src = audioFileURL;
+      $(audioBox).find('button, input').hide();
+      putUploadURL(audio, audioBox.find('input[type="text"]'));
+    }
+  });
+}
+
 function allowDrawing() {
   editorState = "color_an_area";
 
@@ -163,7 +176,7 @@ function allowDrawing() {
   $("#save").click(function() {
     var mergeUrl = [];
     for (var c = 0; c < $('#audios li').length; c++) {
-      mergeUrl.push($($('#audios li')[c]).find('input').val());
+      mergeUrl.push($($('#audios li')[c]).find('input[type="text"]').val());
     }
     var fd = new FormData();
     fd.append('img', $('#imgurl').val());
@@ -190,11 +203,12 @@ function toggleRecording(e) {
     mainstream.stop();
     recorder.exportWAV(function(wavaudio) {
       var audioBox = $(e.currentTarget).parent('li');
-      audioBox.find('audio').show()[0].src = window.URL.createObjectURL(wavaudio);
-      putUploadURL(wavaudio, audioBox.find('input'));
+      audioBox.find('audio').show()[0].src = URL.createObjectURL(wavaudio);
+      putUploadURL(wavaudio, audioBox.find('input[type="text"]'));
     });
   }
   else {
+    $(e.currentTarget).siblings("input[type=file]").hide();
     $(e.currentTarget).text('Approve');
     navigator.getUserMedia({audio: true, video: false}, function(stream){
       $(e.currentTarget).text('Stop');
@@ -249,6 +263,7 @@ $(function() {
   if (window.location.href.indexOf("demo") > -1) {
     // special demo mode
     allowDrawing();
+    watchForAudioUpload();
   } else {
     // wait for image to add
     editorState = "add_an_image";

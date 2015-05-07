@@ -55,6 +55,7 @@ function loadURLOnCanvas(url, callback) {
   i.src = url;
   if (typeof allowDrawing != 'undefined') {
     allowDrawing();
+    watchForAudioUpload();
   }
   $(".canvas-container input").remove();
 }

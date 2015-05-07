@@ -69,3 +69,9 @@ audio.show {
   position: absolute;
   padding: 10px;
 }
+
+input[type=file] {
+  display: inline;
+  float: right;
+  margin-top: 5px;
+}

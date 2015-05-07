@@ -18,7 +18,7 @@ When you first open the editor, it will look blank.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/1.png" width="400"/>
 
-Find an interesting picture or photo on your computer. Drag and drop it into the web browser.
+Find an interesting picture or photo on your computer. Drag and drop it into the web browser, or use the file select button.
 I'll use this picture of me on a rainy day.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/2.png" width="400"/>
@@ -30,9 +30,13 @@ You can change colors by clicking a colorful square above the photo.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/3.png" width="400"/>
 
+Now record or upload your audio files for each color, on a sidebar.
+
+<img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/5.png" width="400"/>
+
 Now click 'Try It!'. The colors are hidden, but your computer remembers where the click areas are.
 
-Clicking on the umbrella makes the audio start playing.
+Clicking on the umbrella makes an audio start playing.
 
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/4.png" width="400"/>
 
