@@ -12,7 +12,6 @@ function processDroppedImage (e) {
 
   // upload that image to S3
   var fd = new FormData();
-  fd.append('fname', 'image.png');
   fd.append('data', e.target.result);
   fd.append('_csrf', $('#csrf').val());
   $.ajax({
@@ -52,6 +51,29 @@ function watchForDroppedImage() {
   window.addEventListener('dragexit', blockHandler, false);
   window.addEventListener('dragover', blockHandler, false);
   window.addEventListener('drop', dropFile, false);
+}
+
+function watchForUploadedImage() {
+  $(".canvas-container input").change(function(e) {
+    var image = this.files[0];
+    if (image) {
+      loadURLOnCanvas(URL.createObjectURL(image), function() {
+        var photoURL = $("canvas#photo")[0].toDataURL();
+        var fd = new FormData();
+        fd.append('data', photoURL);
+        fd.append('_csrf', $('#csrf').val());
+        $.ajax({
+          type: 'POST',
+          url: '/imgurl',
+          data: fd,
+          processData: false,
+          contentType: false
+        }).done(function (data) {
+          $('#imgurl').val(data.url);
+        });
+      });
+    }
+  });
 }
 
 function allowDrawing() {
@@ -191,7 +213,6 @@ function putUploadURL(blobData, input) {
   var reader = new FileReader();
   reader.onload = function (e) {
     var fd = new FormData();
-    fd.append('fname', 'recording.wav');
     fd.append('data', e.target.result);
     fd.append('_csrf', $('#csrf').val());
     $.ajax({
@@ -209,10 +230,10 @@ function putUploadURL(blobData, input) {
 
 function checkRecordability() {
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-  if(typeof AudioContext === "undefined"){
+  if (typeof AudioContext === "undefined") {
     browserAudioContext = webkitAudioContext;
   }
-  else{
+  else {
     browserAudioContext = AudioContext;
   }
   if (typeof navigator.getUserMedia === 'undefined') {
@@ -232,5 +253,6 @@ $(function() {
     // wait for image to add
     editorState = "add_an_image";
     watchForDroppedImage();
+    watchForUploadedImage();
   }
 });

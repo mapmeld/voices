@@ -36,7 +36,7 @@ function playAudioForColor(pixelColor) {
   }
 }
 
-function loadURLOnCanvas(url) {
+function loadURLOnCanvas(url, callback) {
   var iw = 500;
   var ih = 500;
   ctx.fillRect(0, 0, iw, ih);
@@ -48,11 +48,15 @@ function loadURLOnCanvas(url) {
       ih = i.height * iw / i.width;
     }
     ctx.drawImage(i, 0, 0, iw, ih);
+    if (callback) {
+      callback();
+    }
   };
   i.src = url;
   if (typeof allowDrawing != 'undefined') {
     allowDrawing();
   }
+  $(".canvas-container input").remove();
 }
 
 $(function() {
