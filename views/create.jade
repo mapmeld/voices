@@ -8,9 +8,6 @@ html
     link(rel="stylesheet", type="text/css", href="css/editor.css")
   body
     .container
-      .hero-unit.well
-        h4 Voices
-
       .row
         .col-md-6
           h3 Image
@@ -20,6 +17,10 @@ html
             span.color.blue _
             span.color.green _
             span.color.purple _
+            span &nbsp;&nbsp;|&nbsp;&nbsp;
+            .paint-tools.btn-group
+              #pencil.btn.btn-success.active Pencil
+              #shape.btn Shapes
           .canvas-container
             canvas#photo(width="500", height="500") Your web browser does not support Canvas! Sorry =(
             canvas#drawn(width="500", height="500")

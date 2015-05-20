@@ -107,8 +107,22 @@ function allowDrawing() {
     colorctx.fillStyle = $(e.currentTarget).css('color');
   });
 
+  $(".paint-tools .btn").click(function() {
+    areas = false;
+  });
+  $(".paint-tools #shape").click(function() {
+    areas = true;
+    firstAreaPt = true;
+    colorctx.beginPath();
+  });
+  $(".paint-tools .btn").click(function(e) {
+    $(".paint-tools .btn").removeClass("active btn-success");
+    $(e.currentTarget).addClass("active btn-success");
+  });
+
   var writing = false;
   var areas = false;
+  var firstAreaPt = null;
   var lastPt = null;
 
   var drawPixels = function(e) {
@@ -141,20 +155,44 @@ function allowDrawing() {
   })
   .on("click", function(e) {
     if (areas) {
-      colorctx.lineTo(e.offsetX, e.offsetY);
-      colorctx.stroke();
+      if (firstAreaPt === true || !firstAreaPt) {
+        colorctx.moveTo(e.offsetX, e.offsetY);
+        colorctx.fillRect(e.offsetX, e.offsetY, 3, 3);
+        firstAreaPt = [e.offsetX, e.offsetY];
+      } else if ((firstAreaPt) && (Math.pow(firstAreaPt[0] - e.offsetX, 2) + Math.pow(firstAreaPt[1] - e.offsetY, 2) < 100)) {
+        colorctx.lineTo(e.offsetX, e.offsetY);
+        colorctx.moveTo(e.offsetX, e.offsetY);
+        colorctx.lineTo(firstAreaPt[0], firstAreaPt[1]);
+        colorctx.stroke();
+        colorctx.closePath();
+        colorctx.fill();
+        if ($("#pencil").hasClass("active")) {
+          areas = false;
+        }
+        firstAreaPt = false;
+      } else {
+        colorctx.lineTo(e.offsetX, e.offsetY);
+        colorctx.stroke();
+      }
     }
   })
   .on("dblclick", function(e) {
     if (areas) {
       colorctx.lineTo(e.offsetX, e.offsetY);
+      colorctx.moveTo(e.offsetX, e.offsetY);
+      colorctx.lineTo(firstAreaPt[0], firstAreaPt[1]);
+      colorctx.stroke();
       colorctx.closePath();
       colorctx.fill();
+      firstAreaPt = false;
     } else {
       colorctx.beginPath();
       colorctx.moveTo(e.offsetX, e.offsetY);
+      firstAreaPt = [e.offsetX, e.offsetY];
     }
-    areas = !areas;
+    if ($("#pencil").hasClass("active")) {
+      areas = !areas;
+    }
   })
   .on("mousemove", drawPixels);
 

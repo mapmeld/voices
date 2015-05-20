@@ -28,6 +28,8 @@ with my mouse. It's OK to use any color, as long as each object is one color.
 
 You can change colors by clicking a colorful square above the photo.
 
+You can switch between pencil and area modes by clicking those buttons.
+
 <img src="https://raw.githubusercontent.com/slang-group/voices/gh-pages/demo/screenshots/3.png" width="400"/>
 
 Now record or upload your audio files for each color, on a sidebar.
