@@ -1,5 +1,7 @@
 # Voices
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mapmeld/voices.svg)](https://greenkeeper.io/)
+
 Experimental open source project for the Endangered Language Alliance.
 
 Clicking on areas of an image plays an audio clip.
