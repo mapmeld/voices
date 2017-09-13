@@ -29,7 +29,6 @@ app.set('view engine', 'jade');
 app.use(express['static'](__dirname + '/static'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(multer());
 app.use(compression());
 app.use(cookieParser());
 
@@ -101,6 +100,8 @@ app.post('/save', parseForm, csrfProtection, function (req, res) {
   });
 });
 
-var server = app.listen(process.env.PORT || 3000, function () {
-  var port = server.address().port;
+app.listen(process.env.PORT || 3000, function () {
+  console.log('app is running');
 });
+
+module.exports = app;

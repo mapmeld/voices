@@ -1,23 +1,25 @@
 {
   "name": "slang-voices",
-  "version": "0.1.1",
+  "version": "1.1.1",
   "author": "Nick Doiron <ndoiron@mapmeld.com>",
   "dependencies": {
-    "aws-sdk": "^2.1.25",
-    "body-parser": "^1.12.3",
-    "compression": "^1.4.3",
-    "cookie-parser": "^1.3.4",
-    "csurf": "^1.8.0",
-    "express": "^4.12.3",
-    "jade": "^1.9.2",
-    "mongoose": "^4.0.2",
-    "multer": "^0.1.8",
-    "request": "^2.55.0"
-  },
-  "engines": {
-    "node": "0.12.x"
+    "aws-sdk": "^2.114.0",
+    "body-parser": "^1.18.1",
+    "compression": "^1.7.0",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "express": "^4.15.4",
+    "jade": "^1.11.0",
+    "mongoose": "^4.11.11",
+    "multer": "^1.3.0",
+    "request": "^2.81.0"
   },
   "scripts": {
     "start": "node app.js"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "supertest": "^3.0.0"
   }
 }
